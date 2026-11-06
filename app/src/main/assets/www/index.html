@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<!-- maximum-scale/user-scalable disable pinch-zoom and double-tap zoom on
+     Android, which would otherwise fight the tap-to-slide board. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>数字华容道</title>
+<meta name="description" content="3×3 到 8×8 的数字华容道（N 数码）小游戏，支持撤销、重来与自动求解。">
+
+<!-- Installable app (PWA) -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1330">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="数字华容道">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="stage">
+  <canvas id="board" width="560" height="700" aria-label="数字华容道棋盘"></canvas>
+  <p class="hint">点击与空格同行或同列的方块，可整行/整列滑动</p>
+</main>
+
+<script src="js/puzzle.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/scores.js"></script>
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var canvas = document.getElementById('board');
+    if (!canvas || !canvas.getContext) {
+      document.querySelector('.hint').textContent = '当前浏览器不支持 Canvas，无法运行游戏。';
+      return;
+    }
+    var game = new HuarongGame(canvas);
+    game.run();
+  })();
+</script>
+<script>
+  // Register the offline cache. Only works over http(s): file:// pages have no
+  // service worker support, so opening index.html directly still plays fine —
+  // it just does not install or work offline.
+  (function () {
+    if (!('serviceWorker' in navigator)) {
+      return;
+    }
+    if (location.protocol !== 'http:' && location.protocol !== 'https:') {
+      return;
+    }
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('service-worker.js').catch(function () {
+        // Offline support is a bonus; the game runs fine without it.
+      });
+    });
+  })();
+</script>
+</body>
+</html>

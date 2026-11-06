@@ -1,0 +1,67 @@
+/* Page chrome for 数字华容道. The game itself is drawn on the canvas. */
+
+:root {
+  --bg: #0d1330;
+  --text: #9aa8c4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  /* `dvh` tracks Android's collapsing URL bar; `vh` is the fallback for older
+     browsers, where the address bar simply overlaps a little. */
+  height: 100dvh;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 0%, #1a2450 0%, var(--bg) 70%);
+  color: var(--text);
+  font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  /* Keep the board from being panned/zoomed away on touch devices. */
+  overscroll-behavior: none;
+  /* The page is a single fixed-size screen with nothing to scroll, so touch
+     gestures are only ever the game's. `touch-action: none` kills double-tap
+     and pinch zoom; the rest suppresses the long-press menu, the tap highlight
+     and text selection. */
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Keep clear of display cutouts / the gesture bar when running full-screen
+     from the home screen (`viewport-fit=cover`). */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+}
+
+canvas {
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  touch-action: none;
+}
+
+.hint {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  user-select: none;
+}
