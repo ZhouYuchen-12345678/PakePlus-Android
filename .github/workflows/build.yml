@@ -1,12 +1,9 @@
-name: Release
+name: Build
 
 on:
-    workflow_dispatch:
-    push:
-        tags:
-            - 'v*'
-        # branches:
-        #     - 'main'
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
     publish-tauri:
